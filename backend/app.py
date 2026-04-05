@@ -375,7 +375,7 @@ def get_applications():
 
 
 # ---------------- RUN ----------------
+init_db()
+create_admin()
 if __name__ == "__main__":
-    init_db()
-    create_admin()
     app.run()

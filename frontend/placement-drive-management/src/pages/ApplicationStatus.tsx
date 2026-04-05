@@ -15,7 +15,7 @@ export default function ApplicationStatus() {
   const [applications, setApplications] = useState<any[]>([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/applications", {
+    fetch("https://placeme-nalv.onrender.com/applications", {
       credentials: "include"
     })
       .then(res => res.json())

@@ -14,7 +14,7 @@ export default function StudentDashboard() {
 
   useEffect(() => {
     // 🔹 Fetch drives
-    fetch("http://localhost:5000/drives", {
+    fetch("https://placeme-nalv.onrender.com/drives", {
       credentials: "include"
     })
       .then(res => res.json())
@@ -33,7 +33,7 @@ export default function StudentDashboard() {
       });
 
     // 🔹 Fetch applied drives
-    fetch("http://localhost:5000/applications", {
+    fetch("https://placeme-nalv.onrender.com/applications", {
       credentials: "include"
     })
       .then(res => res.json())
@@ -48,7 +48,7 @@ export default function StudentDashboard() {
   }, []);
 
   const handleApply = (drive_id: number) => {
-    fetch("http://localhost:5000/apply", {
+    fetch("https://placeme-nalv.onrender.com/apply", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

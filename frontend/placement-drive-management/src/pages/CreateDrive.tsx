@@ -26,13 +26,13 @@ export default function CreateDrive() {
 
   // 🔥 Fetch companies
   useEffect(() => {
-    fetch("http://localhost:5000/companies")
+    fetch("https://placeme-nalv.onrender.com/companies")
       .then(res => res.json())
       .then(data => setCompanies(data));
   }, []);
 
   const handleSubmit = async () => {
-    const res = await fetch("http://localhost:5000/create-drive", {
+    const res = await fetch("https://placeme-nalv.onrender.com/create-drive", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

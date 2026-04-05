@@ -11,7 +11,7 @@ export default function Navbar() {
   const isAdmin = location.pathname.startsWith("/admin");
 
   const logout = async () => {
-    await fetch("http://localhost:5000/logout", {
+    await fetch("https://placeme-nalv.onrender.com/logout", {
       method: "POST",
       credentials: "include"
     });

@@ -10,17 +10,17 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     // 🔹 Companies
-    fetch("http://localhost:5000/companies")
+    fetch("https://placeme-nalv.onrender.com/companies")
       .then(res => res.json())
       .then(data => setCompanies(data.length));
 
     // 🔹 Drives
-    fetch("http://localhost:5000/drives")
+    fetch("https://placeme-nalv.onrender.com/drives")
       .then(res => res.json())
       .then(data => setDrives(data.length));
 
     // 🔹 Applications
-    fetch("http://localhost:5000/all-applications")
+    fetch("https://placeme-nalv.onrender.com/all-applications")
       .then(res => res.json())
       .then(data => setApplications(data.length));
   }, []);

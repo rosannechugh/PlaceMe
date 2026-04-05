@@ -23,7 +23,7 @@ export default function ViewApplications() {
 
   // 🔹 Fetch applications
   const fetchApplications = () => {
-    fetch("http://localhost:5000/all-applications", {
+    fetch("https://placeme-nalv.onrender.com/all-applications", {
       credentials: "include"
     })
       .then(res => res.json())
@@ -37,7 +37,7 @@ export default function ViewApplications() {
 
   // 🔹 Update status
   const updateStatus = (id: number, status: string) => {
-    fetch("http://localhost:5000/update-status", {
+    fetch("https://placeme-nalv.onrender.com/update-status", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

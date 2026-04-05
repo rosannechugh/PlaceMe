@@ -13,7 +13,7 @@ export default function AddCompany() {
   const handleSubmit = async (e: any) => {
     e.preventDefault(); // 🔥 prevent reload
 
-    const res = await fetch("http://localhost:5000/add-company", {
+    const res = await fetch("https://placeme-nalv.onrender.com/add-company", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

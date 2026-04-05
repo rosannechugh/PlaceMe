@@ -107,20 +107,15 @@ def register():
 
 
 # ---------------- LOGIN ----------------
-# ---------------- LOGIN ----------------
 @app.route("/login", methods=["POST"])
 def login():
     data = request.get_json()
 
-    # 🔥 Prevent crash if no JSON
     if not data:
         return {"error": "No data received"}, 400
 
     email = data.get("email")
     password = data.get("password")
-
-    if not email or not password:
-        return {"error": "Missing fields"}, 400
 
     conn = get_connection()
 
@@ -130,12 +125,21 @@ def login():
 
     conn.close()
 
+    print("LOGIN DATA:", data)
+    print("USER:", user)
+
     if user:
         session["student_id"] = user["id"]
 
         return {
             "message": "Login successful",
-            "user": dict(user)
+            "user": {
+                "id": user["id"],
+                "name": user["name"],
+                "email": user["email"],
+                "cgpa": user["cgpa"],
+                "role": user["role"]
+            }
         }
 
     return {"error": "Invalid credentials"}, 401

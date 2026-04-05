@@ -10,7 +10,9 @@ app.config.update(
     SESSION_COOKIE_SAMESITE="None",
     SESSION_COOKIE_SECURE=True
 )
-
+@app.route("/")
+def home():
+    return "Backend is running"
 # ---------------- DATABASE ----------------
 def get_connection():
     conn = sqlite3.connect("database.db")

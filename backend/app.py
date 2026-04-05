@@ -5,8 +5,11 @@ from flask_cors import CORS
 app = Flask(__name__)
 app.secret_key = "secret123"
 
-CORS(app, supports_credentials=True, origins=["http://localhost:8080"])
-
+CORS(app, supports_credentials=True)
+app.config.update(
+    SESSION_COOKIE_SAMESITE="None",
+    SESSION_COOKIE_SECURE=True
+)
 
 # ---------------- DATABASE ----------------
 def get_connection():
@@ -358,4 +361,4 @@ def get_applications():
 if __name__ == "__main__":
     init_db()
     create_admin()
-    app.run(debug=True)
+    app.run()

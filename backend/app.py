@@ -107,15 +107,26 @@ def register():
 
 
 # ---------------- LOGIN ----------------
+# ---------------- LOGIN ----------------
 @app.route("/login", methods=["POST"])
 def login():
-    data = request.json
+    data = request.get_json()
+
+    # 🔥 Prevent crash if no JSON
+    if not data:
+        return {"error": "No data received"}, 400
+
+    email = data.get("email")
+    password = data.get("password")
+
+    if not email or not password:
+        return {"error": "Missing fields"}, 400
 
     conn = get_connection()
 
     user = conn.execute("""
         SELECT * FROM Student WHERE email=? AND password=?
-    """, (data["email"], data["password"])).fetchone()
+    """, (email, password)).fetchone()
 
     conn.close()
 
@@ -127,7 +138,7 @@ def login():
             "user": dict(user)
         }
 
-    return {"error": "Invalid credentials"}
+    return {"error": "Invalid credentials"}, 401
 
 
 # ---------------- LOGOUT ----------------

@@ -8,10 +8,39 @@ import { useEffect, useState } from "react";
 
 export default function StudentDashboard() {
   const { toast } = useToast();
-
+  const [file, setFile] = useState<File | null>(null);
   const [drives, setDrives] = useState<any[]>([]);
   const [appliedIds, setAppliedIds] = useState<number[]>([]);
 
+  const handleUpload = async () => {
+  if (!file) {
+    alert("Select a file");
+    return;
+  }
+
+  if (file.type !== "application/pdf") {
+    alert("Only PDF allowed");
+    return;
+  }
+
+  if (file.size > 2 * 1024 * 1024) {
+    alert("Max size is 2MB");
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("resume", file);
+
+  const res = await fetch("https://placeme-nalv.onrender.com/upload-resume", {
+    method: "POST",
+    credentials: "include",
+    body: formData
+  });
+
+  const data = await res.json();
+  alert(data.message || data.error);
+};
+  
   useEffect(() => {
     // 🔹 Fetch drives
     fetch("https://placeme-nalv.onrender.com/drives", {
@@ -90,7 +119,19 @@ export default function StudentDashboard() {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
+      <div className="mb-6 p-4 border rounded-lg">
+  <h2 className="text-lg font-semibold mb-2">Upload Resume</h2>
 
+  <input
+    type="file"
+    accept="application/pdf"
+    onChange={(e) => setFile(e.target.files?.[0] || null)}
+  />
+
+  <Button className="mt-2" onClick={handleUpload}>
+    Upload Resume
+  </Button>
+</div>
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <h1 className="text-2xl font-bold mb-6">
           Available Placement Drives

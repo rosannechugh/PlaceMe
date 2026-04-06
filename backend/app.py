@@ -1,7 +1,7 @@
-from flask import Flask, request, jsonify, session
+from flask import Flask, request, jsonify, session,send_from_directory
 import sqlite3
 from flask_cors import CORS
-
+import os
 app = Flask(__name__)
 app.secret_key = "secret123"
 
@@ -13,6 +13,53 @@ app.config.update(
 @app.route("/")
 def home():
     return "Backend is running"
+
+UPLOAD_FOLDER = "uploads"
+MAX_FILE_SIZE = 2 * 1024 * 1024  # 2MB
+
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+
+@app.route("/upload-resume", methods=["POST"])
+def upload_resume():
+    if "student_id" not in session:
+        return {"error": "Not logged in"}, 401
+
+    file = request.files.get("resume")
+
+    if not file:
+        return {"error": "No file uploaded"}, 400
+
+    # ✅ Only PDF
+    if not file.filename.lower().endswith(".pdf"):
+        return {"error": "Only PDF files allowed"}, 400
+
+    # ✅ Size check
+    file.seek(0, os.SEEK_END)
+    size = file.tell()
+    file.seek(0)
+
+    if size > MAX_FILE_SIZE:
+        return {"error": "File too large (max 2MB)"}, 400
+
+    filename = f"{session['student_id']}.pdf"
+    filepath = os.path.join(UPLOAD_FOLDER, filename)
+
+    file.save(filepath)
+
+    conn = get_connection()
+    conn.execute(
+        "UPDATE Student SET resume=? WHERE id=?",
+        (filename, session["student_id"])
+    )
+    conn.commit()
+    conn.close()
+
+    return {"message": "Resume uploaded successfully"}
+
+@app.route("/resume/<filename>")
+def get_resume(filename):
+    return send_from_directory(UPLOAD_FOLDER, filename)
 # ---------------- DATABASE ----------------
 def get_connection():
     conn = sqlite3.connect("database.db")
@@ -34,7 +81,8 @@ def init_db():
         password TEXT,
         cgpa REAL,
         branch TEXT,
-        role TEXT DEFAULT 'student'
+        role TEXT DEFAULT 'student',
+        resume TEXT
     )
     """)
 
@@ -279,6 +327,7 @@ def all_applications():
             a.id,
             s.name AS student_name,
             s.email,
+            s.resume,
             c.name AS company_name,
             d.title,
             a.status

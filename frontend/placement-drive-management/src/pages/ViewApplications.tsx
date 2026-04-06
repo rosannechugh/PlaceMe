@@ -68,6 +68,7 @@ export default function ViewApplications() {
                   <TableHead>Role</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead>Action</TableHead>
+                  <TableHead>Resume</TableHead>
                 </TableRow>
               </TableHeader>
 
@@ -114,6 +115,20 @@ export default function ViewApplications() {
                         </SelectContent>
                       </Select>
                     </TableCell>
+                    <TableCell>
+  {a.resume ? (
+    <a
+      href={`https://placeme-nalv.onrender.com/resume/${a.resume}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-blue-500 underline"
+    >
+      View
+    </a>
+  ) : (
+    "No Resume"
+  )}
+</TableCell>
                   </TableRow>
                 ))}
               </TableBody>

@@ -128,13 +128,9 @@ placement-system/
 - Resume upload feature
 - Deployment on Render
 - Integration of frontend and backend
-
-### Rajapurohitham Sahana
 - Frontend development
 - UI design and responsiveness
 - Dashboard implementation
-
-### Yuvika Das
 - Database design
 - Testing and validation
 
